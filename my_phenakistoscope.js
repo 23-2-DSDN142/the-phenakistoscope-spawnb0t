@@ -1,9 +1,9 @@
 //6-18 (10) 
-const SLICE_COUNT = 10;
+const SLICE_COUNT = 18;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(OUTPUT_GIF(1000)); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(sizePixels) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(STATIC_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(sizePixels) / OUTPUT_PRINT(A4orA3)
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
