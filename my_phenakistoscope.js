@@ -3,7 +3,7 @@ const SLICE_COUNT = 6;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(OUTPUT_GIF(1000)); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(STATIC_FRAME); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
@@ -57,51 +57,90 @@ var layer4 = new PLayer(horse);
 //  }
 
 function eagle(x, y, animation, pScope){
-  
-  push()
-  scale(0.07);
-  pScope.draw_image("eagleTailPlaceholder", 0, 400);
-  pop()
+  // let angleOffset = (360 / SLICE_COUNT) / 2
+  // let backgroundArcStart = 258 - angleOffset;
+  // let backgroundArcEnd = 280 + angleOffset;
 
-  push()
-  scale(0.1);
-  pScope.draw_image("wingL", -1200, -400);
+  // fill('#FDD985')
+  // arc(x,y,1000,1000,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
 
-  scale(1);
-  pScope.draw_image("wingR", 1200, -400);
-  pop()
+  // fill(0)
+  // ellipse(150, 850, 1000);
 
-  push()
-  scale(0.14);
-  pScope.draw_image("clawL", -500, 300);
+  let xEagleStart = -16000
+  let yEagleStart = 8000
+  let xEagleLowest = -1000
+  let yEagleBottom = 0
 
-  scale(1);
-  pScope.draw_image("clawR", 500, 300);
-  pop()
+  let xSwoop = xEagleStart - (animation.wave(1)*-12000)
+  let ySwoop = yEagleStart - (animation.wave(1)*5000)
 
-  push()
-  scale(0.09);
-  pScope.draw_image("eagleBodyPlaceholder", 0, -600);
-  pop()
+  if (xSwoop == xEagleLowest){
+    let xSwoop =  xEagleStart- (animation.wave(1)*12000)
+  }
+
+  if (ySwoop == yEagleBottom){
+    let ySwoop =  yEagleStart- (animation.wave(1)*-5000)
+  }
+
+  // push()
+  // scale(0.07);
+  // pScope.draw_image("eagleTailPlaceholder", 0, 400);
+  // pop()
+
+  // push()
+  // scale(0.1);
+  // pScope.draw_image("wingL", -1200, -400);
+
+  // scale(1);
+  // pScope.draw_image("wingR", 1200, -400);
+  // pop()
+
+  // push()
+  // scale(0.14);
+  // pScope.draw_image("clawL", -500, 300);
+
+  // scale(1);
+  // pScope.draw_image("clawR", 500, 300);
+  // pop()
+
+  // push()
+  // scale(0.09);
+  // pScope.draw_image("eagleBodyPlaceholder", 0, -600);
+  // pop()
   
   push()
   scale(0.08);
-  pScope.draw_image("eagleHeadPlaceholder", -100, -500);
+  pScope.draw_image("eagleHeadPlaceholder", ySwoop, xSwoop);
   pop()
 
 }
 
+
+
+// else{
+// greyValue = 0
+// ellipseDiameterStart = 45
+// }
+
+// ellipse(Xmiddle, Ymiddle, ellipseDiameterStart, ellipseDiameterStart)
+
+
+
+
+
+
 function tumbleweedCentre(x, y, animation, pScope){
 
   // this is how you set up a background for a specific layer
-  let angleOffset = (360 / SLICE_COUNT) / 2
+  let angleOffset = (360 / SLICE_COUNT) /2
   let backgroundArcStart = 270 - angleOffset;
   let backgroundArcEnd = 270 + angleOffset;
 
-  fill('#d8f9ff')
-  arc(x,y,800,800,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
+  fill('#FDD985')
+  arc(x,y,700,700,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
 
-  stroke('#ffd59a')
+  stroke('#AB7E4C')
   strokeWeight(7);
   line(0, 0, 0, -50);
   line(0, -50, 10, -100);
@@ -134,6 +173,7 @@ function horse(x, y, animation, pScope){
 
 
 
+//variables: framerate, colours, slices, ring/swirl
 
 
 
