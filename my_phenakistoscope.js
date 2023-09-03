@@ -33,20 +33,20 @@ function setup_layers(pScope){
   // 'layerName'.set_boundary(start from centre of slice, path end to edge);
 
   var layer1 = new PLayer(eagle);
-  layer1.mode(SWIRL(1));
-  layer1.set_boundary( 200, 1000 );
+  layer1.mode(RING);
+  layer1.set_boundary( 400, 1000);
 
   var layer2 = new PLayer(tumbleweedCentre);
   layer2.mode(RING);
-  layer2.set_boundary( 0, 400 );
+  layer2.set_boundary( 0, 400);
 
   var layer3 = new PLayer(cactus);
   layer3.mode(RING);
-  layer3.set_boundary( 0, 400 );
+  layer3.set_boundary( 400, 1000);
 
 var layer4 = new PLayer(horse);
   layer4.mode(RING);
-  layer4.set_boundary( 0, 400 );
+  layer4.set_boundary( 400, 1000);
 }
 
 
@@ -58,66 +58,64 @@ var layer4 = new PLayer(horse);
 
 function eagle(x, y, animation, pScope){
   
-  fill('#b7e2f3');
-  ellipse(500, 500, 10000);
+  pScope.fill_background('#b7e2f3');
+  // ellipse(500, 500, 10000);
 
-  let xEagleStart = 0
-  let yEagleStart = 7500
-  let xEagleLowest = 0
-  let yEagleBottom = 0
+  let xEagleStart = 6000//right
+  let yEagleStart = -12000 //top
+  let xEagleFurthest = -6000//left
+  let yEagleBottom = -7500//bottom (change?)
 
-  let xSwoop = xEagleStart - (animation.wave(1))
-  let ySwoop = yEagleStart + (animation.wave(1))
+  let xSwoop = xEagleStart 
+  let ySwoop = yEagleStart
 
-  // if (xSwoop == xEagleLowest){
-  //   let xSwoop =  xEagleStart- (animation.wave(1)*12000)
-  // }
+  let scaleVal = 0.08;
 
-  // if (ySwoop == yEagleBottom){
-  //   let ySwoop =  yEagleStart- (animation.wave(1)*-5000)
-  // }
+push()
+scale(scaleVal);
+if(animation.frame <= 0.5){
+  ySwoop = map(animation.frame, 0, 0.5, yEagleStart, yEagleBottom);
+}
+else{
+  ySwoop = map(animation.frame, 0.5, 1, yEagleBottom, yEagleStart);
+}
 
-  // push()
-  // scale(0.07);
-  // pScope.draw_image("eagleTailPlaceholder", 0, 400);
-  // pop()
+xSwoop = map(animation.frame, 0, 1, xEagleStart, xEagleFurthest);
 
-  // push()
-  // scale(0.1);
-  // pScope.draw_image("wingL", -1200, -400);
 
-  // scale(1);
-  // pScope.draw_image("wingR", 1200, -400);
-  // pop()
 
-  // push()
-  // scale(0.14);
-  // pScope.draw_image("clawL", -500, 300);
 
-  // scale(1);
-  // pScope.draw_image("clawR", 500, 300);
-  // pop()
+pScope.draw_image("eagleTailPlaceholder", xSwoop, ySwoop+400);
 
-  // push()
-  // scale(0.09);
-  // pScope.draw_image("eagleBodyPlaceholder", 0, -600);
-  // pop()
-  
-  push()
-  scale(0.08);
-  pScope.draw_image("eagleHeadPlaceholder", ySwoop, xSwoop);
-  pop()
+pScope.draw_image("clawL", xSwoop-400, ySwoop+900);
+pScope.draw_image("clawL", xSwoop+400, ySwoop+900);
 
+pScope.draw_image("wingL", xSwoop-1200, ySwoop);
+pScope.draw_image("wingR", xSwoop+1200, ySwoop);
+
+pScope.draw_image("eagleBodyPlaceholder", xSwoop+60, ySwoop);
+
+pScope.draw_image("eagleHeadPlaceholder", xSwoop, ySwoop);//ySwoop + -10000); 
+
+
+pop()
+
+
+
+
+
+//red ellipse for reference
+// fill(255, 0, 0);
+// ellipse(0, -800, 100, 100);
+
+
+
+ 
 }
 
 
 
-// else{
-// greyValue = 0
-// ellipseDiameterStart = 45
-// }
 
-// ellipse(Xmiddle, Ymiddle, ellipseDiameterStart, ellipseDiameterStart)
 
 
 
@@ -141,25 +139,41 @@ function tumbleweedCentre(x, y, animation, pScope){
   line(10, -100, -30, -130);
   line(-30, -130, )
 
+ 
+
 }
+
+
+
+
+
 
 
 function horse(x, y, animation, pScope){
 
-  translate(-100, 740);
-  rotate(185);
-  scale(0.1);
-  pScope.draw_image("horsePlaceholder", 0,2800);
+  let scaleVal = 0.1;
+
+  rotate(10);
+
+  push()
+  scale(scaleVal);
+  pScope.draw_image("horsePlaceholder", 0, -4700);
+  pop()
 
 }
 
 
   function cactus(x, y, animation, pScope){
 
-    translate(0, 800);
-    rotate(160);
-    scale(0.1);
-    pScope.draw_image("cactus", -2200, 3000);
+    let scaleVal = 0.08;
+
+  rotate(340);
+
+  push()
+  scale(scaleVal);
+  pScope.draw_image("cactus", 0, -5500);
+  pop()
+    
   
   }
 
