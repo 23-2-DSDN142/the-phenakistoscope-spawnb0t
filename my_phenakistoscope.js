@@ -3,7 +3,7 @@ const SLICE_COUNT = 6;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(STATIC_FRAME); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
@@ -57,31 +57,25 @@ var layer4 = new PLayer(horse);
 //  }
 
 function eagle(x, y, animation, pScope){
-  // let angleOffset = (360 / SLICE_COUNT) / 2
-  // let backgroundArcStart = 258 - angleOffset;
-  // let backgroundArcEnd = 280 + angleOffset;
+  
+  fill('#b7e2f3');
+  ellipse(500, 500, 10000);
 
-  // fill('#FDD985')
-  // arc(x,y,1000,1000,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
-
-  // fill(0)
-  // ellipse(150, 850, 1000);
-
-  let xEagleStart = -16000
-  let yEagleStart = 8000
-  let xEagleLowest = -1000
+  let xEagleStart = 0
+  let yEagleStart = 7500
+  let xEagleLowest = 0
   let yEagleBottom = 0
 
-  let xSwoop = xEagleStart - (animation.wave(1)*-12000)
-  let ySwoop = yEagleStart - (animation.wave(1)*5000)
+  let xSwoop = xEagleStart - (animation.wave(1))
+  let ySwoop = yEagleStart + (animation.wave(1))
 
-  if (xSwoop == xEagleLowest){
-    let xSwoop =  xEagleStart- (animation.wave(1)*12000)
-  }
+  // if (xSwoop == xEagleLowest){
+  //   let xSwoop =  xEagleStart- (animation.wave(1)*12000)
+  // }
 
-  if (ySwoop == yEagleBottom){
-    let ySwoop =  yEagleStart- (animation.wave(1)*-5000)
-  }
+  // if (ySwoop == yEagleBottom){
+  //   let ySwoop =  yEagleStart- (animation.wave(1)*-5000)
+  // }
 
   // push()
   // scale(0.07);
@@ -138,7 +132,7 @@ function tumbleweedCentre(x, y, animation, pScope){
   let backgroundArcEnd = 270 + angleOffset;
 
   fill('#FDD985')
-  arc(x,y,700,700,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
+  arc(x,y,800,800,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
 
   stroke('#AB7E4C')
   strokeWeight(7);
