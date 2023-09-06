@@ -1,15 +1,15 @@
 //6-18 (10) 
-const SLICE_COUNT = 6;
+const SLICE_COUNT = 8;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(STATIC_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
   pScope.set_slice_count(SLICE_COUNT);
   pScope.load_image("cactus" , "png");
-  pScope.load_image("horsePlaceholder" , "png");
+  pScope.load_image("horse" , "png");
   pScope.load_image("eagleTailPlaceholder" , "png");
   pScope.load_image("wingL" , "png");
   pScope.load_image("wingR" , "png");
@@ -34,7 +34,7 @@ function setup_layers(pScope){
 
   var layer1 = new PLayer(eagle);
   layer1.mode(RING);
-  layer1.set_boundary( 400, 1000);
+  layer1.set_boundary(400, 1000);
 
   var layer2 = new PLayer(tumbleweedCentre);
   layer2.mode(RING);
@@ -47,6 +47,7 @@ function setup_layers(pScope){
 var layer4 = new PLayer(horse);
   layer4.mode(RING);
   layer4.set_boundary( 400, 1000);
+
 }
 
 
@@ -71,6 +72,15 @@ function eagle(x, y, animation, pScope){
 
   let scaleVal = 0.08;
 
+
+// //scaling
+// if(animation.frame <= 0.5){
+//   scaleVal = (0.04);
+// }
+// else{
+//   scaleVal = (0.08);
+// }
+
 push()
 scale(scaleVal);
 if(animation.frame <= 0.5){
@@ -81,6 +91,7 @@ else{
 }
 
 xSwoop = map(animation.frame, 0, 1, xEagleStart, xEagleFurthest);
+
 
 
 
@@ -153,11 +164,11 @@ function horse(x, y, animation, pScope){
 
   let scaleVal = 0.1;
 
-  rotate(10);
+  rotate(8);
 
   push()
   scale(scaleVal);
-  pScope.draw_image("horsePlaceholder", 0, -4700);
+  pScope.draw_image("horse", 400, -4660);
   pop()
 
 }
@@ -176,8 +187,7 @@ function horse(x, y, animation, pScope){
     
   
   }
-
-  
+    
 
 
 
