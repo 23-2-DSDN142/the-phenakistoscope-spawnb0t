@@ -3,20 +3,19 @@ const SLICE_COUNT = 8;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(STATIC_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(ANIMATED_FRAME); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
   pScope.set_slice_count(SLICE_COUNT);
   pScope.load_image("cactus" , "png");
   pScope.load_image("horse" , "png");
-  pScope.load_image("eagleTailPlaceholder" , "png");
+  pScope.load_image("eagleTail" , "png");
   pScope.load_image("wingL" , "png");
   pScope.load_image("wingR" , "png");
   pScope.load_image("clawL" , "png");
   pScope.load_image("clawR" , "png");
-  pScope.load_image("eagleBodyPlaceholder" , "png");
-  pScope.load_image("eagleHeadPlaceholder" , "png");
+  pScope.load_image("eagleHead" , "png");
 }
 
 
@@ -48,6 +47,10 @@ var layer4 = new PLayer(horse);
   layer4.mode(RING);
   layer4.set_boundary( 400, 1000);
 
+  var layer5 = new PLayer(horseJump);
+  layer5.mode(RING);
+  layer5.set_boundary( 400, 1000);
+
 }
 
 
@@ -60,7 +63,6 @@ var layer4 = new PLayer(horse);
 function eagle(x, y, animation, pScope){
   
   pScope.fill_background('#b7e2f3');
-  // ellipse(500, 500, 10000);
 
   let xEagleStart = 6000//right
   let yEagleStart = -12000 //top
@@ -71,15 +73,15 @@ function eagle(x, y, animation, pScope){
   let ySwoop = yEagleStart
 
   let scaleVal = 0.08;
+  let scaleVal2;
 
-
-// //scaling
-// if(animation.frame <= 0.5){
-//   scaleVal = (0.04);
-// }
-// else{
-//   scaleVal = (0.08);
-// }
+//scaling
+if(animation.frame <= 0.5){
+  scaleVal2 = map(animation.frame, 0, 0.5, 0.5, 0.8);
+}
+else{
+  scaleVal2 = map(animation.frame, 0, 0.5, 0.8, 0.5);;
+}
 
 push()
 scale(scaleVal);
@@ -92,32 +94,65 @@ else{
 
 xSwoop = map(animation.frame, 0, 1, xEagleStart, xEagleFurthest);
 
+xSwoop = 0;
+ySwoop = -10000;
+scaleVal2 = 0.8
+
+
+if(animation.frame <= 0.25){
+  flap = map(animation.frame, 0, 0.25, );
+}
+else{
+  flap = map(animation.frame, 0.25, 0.5, 0.8, 0.5);;
+}
+
+
+if(animation.frame <= 0.5){
+  rotateWing = map(animation.frame, 0, 0.5, -30, 30);
+}
+// else if(animation.frame > 0.25 && animation.frame <=0.5){
+
+// }
+else{
+  rotateWing = map(animation.frame, 0.5, 1, 30, -30);
+}
 
 
 
+push();
 
-pScope.draw_image("eagleTailPlaceholder", xSwoop, ySwoop+400);
+translate(xSwoop, ySwoop);
+scale(scaleVal2);
 
-pScope.draw_image("clawL", xSwoop-400, ySwoop+900);
-pScope.draw_image("clawL", xSwoop+400, ySwoop+900);
+push()
+scale(scaleVal2*1.25)
+pScope.draw_image("eagleTail", 0, 1000);
+pop()
 
-pScope.draw_image("wingL", xSwoop-1200, ySwoop);
-pScope.draw_image("wingR", xSwoop+1200, ySwoop);
-
-pScope.draw_image("eagleBodyPlaceholder", xSwoop+60, ySwoop);
-
-pScope.draw_image("eagleHeadPlaceholder", xSwoop, ySwoop);//ySwoop + -10000); 
+pScope.draw_image("clawL", 400, 900);
+pScope.draw_image("clawL", 400, 900);
 
 
+push()
+push();
+translate(-2500, 0);
+scale(scaleVal2*1.75)
+rotate(rotateWing);
+pScope.draw_image("wingL", 0, 0);
+pop();
+push();
+translate(1000, 0);
+scale(scaleVal2*1.75)
+rotate(-rotateWing);
+pScope.draw_image("wingR", 1500, 0);
+pop();
 pop()
 
 
+pScope.draw_image("eagleHead", 0, 0);//ySwoop + -10000); 
+pop()
+pop()
 
-
-
-//red ellipse for reference
-// fill(255, 0, 0);
-// ellipse(0, -800, 100, 100);
 
 
 
@@ -168,7 +203,31 @@ function horse(x, y, animation, pScope){
 
   push()
   scale(scaleVal);
-  pScope.draw_image("horse", 400, -4660);
+  //pScope.draw_image("horse", 400, -4660); // 400, -4660 start pos
+  pop()
+
+}
+
+function horseJump(x, y, animation, pScope){
+
+  let scaleVal = 0.1;
+
+  rotate(8);
+
+  push()
+  scale(scaleVal);
+  let jumpFrames = 0.45;
+  if(animation.frame<=jumpFrames){
+    let horseY;
+    if(jumpFrames<=jumpFrames/2){
+      horseY = map(jumpFrames, 0, jumpFrames/2, -4660, -5000);
+    }
+    else{
+      horseY = map(jumpFrames, jumpFrames/2, jumpFrames, -5000, -4660);
+    }
+    pScope.draw_image("horse", 2000 - animation.frame*1600, horseY); //400, -4660 end pos
+  }
+  // pScope.draw_image("horse", 400, -4660); //400, -4660 end pos
   pop()
 
 }
@@ -185,8 +244,11 @@ function horse(x, y, animation, pScope){
   pScope.draw_image("cactus", 0, -5500);
   pop()
     
-  
   }
+  
+
+
+  
     
 
 
