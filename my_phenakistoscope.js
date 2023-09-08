@@ -1,11 +1,14 @@
+
+//REWRITE NOTES - PROFESSIONALISM
+
 //6-18 (10) 
 const SLICE_COUNT = 8;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_FRAME); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
   pScope.scale_for_screen(true);
-  pScope.draw_layer_boundaries(true); 
+  pScope.draw_layer_boundaries(false); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
   pScope.set_slice_count(SLICE_COUNT);
   pScope.load_image("cactus" , "png");
@@ -24,12 +27,7 @@ function setup_pScope(pScope){
 function setup_layers(pScope){
 
   //background colour
-  new PLayer(null, 220);  //lets us draw the whole circle background, ignoring the boundaries
-
-  //LAYERS
-  // var 'layerName' = new PLayer('elementName');
-  // 'layerName'.mode(SWIRL(no.) or RING);
-  // 'layerName'.set_boundary(start from centre of slice, path end to edge);
+  new PLayer(null, 220);  //whole circle background, ignoring boundaries
 
   var layer1 = new PLayer(eagle);
   layer1.mode(RING);
@@ -43,11 +41,11 @@ function setup_layers(pScope){
   layer3.mode(RING);
   layer3.set_boundary( 400, 1000);
 
-var layer4 = new PLayer(horse);
+  var layer4 = new PLayer(horseJump);
   layer4.mode(RING);
   layer4.set_boundary( 400, 1000);
 
-  var layer5 = new PLayer(horseJump);
+  var layer5 = new PLayer(horse);
   layer5.mode(RING);
   layer5.set_boundary( 400, 1000);
 
@@ -55,7 +53,6 @@ var layer4 = new PLayer(horse);
 
 
 
-//below functions are effectively the drawings
 //function 'elementName'(x, y, animation, pScope){
 //    scale(no.) / scale(0+animation.frameNo.) / scale(animation.wave)
 //  }
@@ -94,10 +91,14 @@ else{
 
 xSwoop = map(animation.frame, 0, 1, xEagleStart, xEagleFurthest);
 
-xSwoop = 0;
-ySwoop = -10000;
-scaleVal2 = 0.8
 
+// for showing no swoop but animated frame
+// xSwoop = 0;
+// ySwoop = -10000;
+
+
+
+scaleVal2 = 0.8
 
 if(animation.frame <= 0.25){
   flap = map(animation.frame, 0, 0.25, );
@@ -129,27 +130,29 @@ scale(scaleVal2*1.25)
 pScope.draw_image("eagleTail", 0, 1000);
 pop()
 
-pScope.draw_image("clawL", 400, 900);
-pScope.draw_image("clawL", 400, 900);
+// pScope.draw_image("clawL", 400, 900);
+// pScope.draw_image("clawL", 400, 900);
 
 
 push()
 push();
-translate(-2500, 0);
+translate(-1000, 100);
 scale(scaleVal2*1.75)
 rotate(rotateWing);
-pScope.draw_image("wingL", 0, 0);
+pScope.draw_image("wingL", -1500, 0);
 pop();
 push();
-translate(1000, 0);
+translate(1000, 100);
 scale(scaleVal2*1.75)
 rotate(-rotateWing);
 pScope.draw_image("wingR", 1500, 0);
 pop();
 pop()
 
-
-pScope.draw_image("eagleHead", 0, 0);//ySwoop + -10000); 
+push()
+scale(scaleVal2*1.4)
+pScope.draw_image("eagleHead", -50, 0);//ySwoop + -10000); 
+pop()
 pop()
 pop()
 
@@ -158,11 +161,6 @@ pop()
 
  
 }
-
-
-
-
-
 
 
 
@@ -185,11 +183,41 @@ function tumbleweedCentre(x, y, animation, pScope){
   line(10, -100, -30, -130);
   line(-30, -130, )
 
- 
-
 }
 
 
+
+
+
+function horseJump(x, y, animation, pScope){
+  push()
+    let scaleVal = 0.1;
+    let jumpFrames = 0.45;
+    rotate(8);
+  
+  
+    //400, -4660 is this horse's end pos. You may want to tweak the start pos (currently 300, -5000, 1900 - animation.frame*1600 and horseY)
+  
+    push()
+    scale(scaleVal);
+    
+    if(animation.frame<=jumpFrames){//horse jump in first section of animation (jumpframes is at top of code, currently 0.45)
+      let horseY;//create y val for horse
+      if(animation.frame<=jumpFrames/2){//jump up
+        horseY = map(animation.frame, 0, jumpFrames/2, -4660, -5000);
+      }
+      else{ //jump fall
+        horseY = map(animation.frame, jumpFrames/2, jumpFrames, -5000, -4660);
+      }
+      // console.log(horseY);
+      // horseY = -4660;
+      pScope.draw_image("horse", 1900 - animation.frame*1600, horseY); //400, -4660 is the horse end pos. you may want to tweak start pos (currently 300, -5000)
+    }
+    // pScope.draw_image("horse", 400, -4660); //400, -4660 end pos
+    pop()
+  
+    pop()
+  }
 
 
 
@@ -198,46 +226,31 @@ function tumbleweedCentre(x, y, animation, pScope){
 function horse(x, y, animation, pScope){
 
   let scaleVal = 0.1;
-
-  rotate(8);
-
-  push()
-  scale(scaleVal);
-  //pScope.draw_image("horse", 400, -4660); // 400, -4660 start pos
-  pop()
-
-}
-
-function horseJump(x, y, animation, pScope){
-
-  let scaleVal = 0.1;
-
-  rotate(8);
-
-  push()
-  scale(scaleVal);
   let jumpFrames = 0.45;
-  if(animation.frame<=jumpFrames){
-    let horseY;
-    if(jumpFrames<=jumpFrames/2){
-      horseY = map(jumpFrames, 0, jumpFrames/2, -4660, -5000);
-    }
-    else{
-      horseY = map(jumpFrames, jumpFrames/2, jumpFrames, -5000, -4660);
-    }
-    pScope.draw_image("horse", 2000 - animation.frame*1600, horseY); //400, -4660 end pos
-  }
-  // pScope.draw_image("horse", 400, -4660); //400, -4660 end pos
-  pop()
+  let xOffset = 1000;
+
+  scale(scaleVal);
+  if(animation.frame>=jumpFrames){ 
+//-4660, 400 horse start pos, -3000, -8660 end pos - probably tweak end points based on eagle, easiest way to do so is in static_disc mode
+  let yLift = map(animation.frame, jumpFrames, 1, -4600+500, -8660); //500 is an offset to tweak start pos based on frame no
+  let xLift = map(animation.frame, jumpFrames, 1, 400+xOffset, -3000); // 1000 is an offset to tweak start pos based on frame no
+
+  translate(xLift, yLift); //used a translate for the horse position in case you want to animate the rotation/scale as well
+    rotate(8);
+    pScope.draw_image("horse", 0, 0);
 
 }
+}
+
+
+
 
 
   function cactus(x, y, animation, pScope){
 
     let scaleVal = 0.08;
 
-  rotate(340);
+  rotate(350);
 
   push()
   scale(scaleVal);
@@ -253,88 +266,7 @@ function horseJump(x, y, animation, pScope){
 
 
 
-//variables: framerate, colours, slices, ring/swirl
+//variables: framerate, colours, slices, ring or swirl
 
-
-
-
-//basic basic coded eagle head
-//function eagle(x, y, animation, pScope){
-//   angleMode(DEGREES);
-//   scale(0+animation.frame*5);
-
-  
-//   ellipse(0,0, 80,50); // draw head
-//   fill(30);
-//   ellipse(-10,-10,10,10); //draw eye
-//   ellipse(10,-10,10,10); // draw eye
-//   fill("#ffff00");
-//   beginShape()
-//   vertex(-10, 10)
-//   vertex(0, 20)
-//   vertex(10, 10);
-//   vertex(-10, 10);
-//   endShape();
-
-// }
-
-
-
-
-
-
-
-//original loaded layers
-// //setup of the layers of animation
-// function setup_layers(pScope){
-
-//   //background colour
-//   new PLayer(null, 220);  //lets us draw the whole circle background, ignoring the boundaries
-
-//   //LAYERS
-//   // var 'layerName' = new PLayer('elementName');
-//   // 'layerName'.mode(SWIRL(no.) or RING);
-//   // 'layerName'.set_boundary(start from centre of slice, path end to edge);
-
-//   var layer1 = new PLayer(faces);
-//   layer1.mode( SWIRL(5) );
-//   layer1.set_boundary( 200, 1000 );
-
-//   var layer2 = new PLayer(squares);
-//   layer2.mode( RING );
-//   layer2.set_boundary( 0, 400 );
-// }
-
-
-
-// //below functions are effectively the drawings
-// //function 'elementName'(x, y, animation, pScope){
-// //    scale(no.) / scale(0+animation.frameNo.) / scale(animation.wave)
-// //  }
-
-// function faces(x, y, animation, pScope){
-  
-//   scale(0+animation.frame*2);
-
-//   ellipse(0,0,50,50); // draw head
-//   fill(30);
-//   ellipse(-10,-10,10,10); //draw eye
-//   ellipse(10,-10,10,10); // draw eye
-//   arc(0,10,20,10,0,180); // draw mouth
-
-// }
-
-// function squares(x, y, animation, pScope){
-
-//   // this is how you set up a background for a specific layer
-//   let angleOffset = (360 / SLICE_COUNT) / 2
-//   let backgroundArcStart = 270 - angleOffset;
-//   let backgroundArcEnd = 270 + angleOffset;
-
-//   fill(66, 135, 245)
-//   arc(x,y,400,800,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
-
-//   fill(255)
-//   rect(-10,-300-animation.wave()*50,20,20) // .wave is a cosine wave btw
-
-// }
+//horse colour
+//horse movement variables as let statements
