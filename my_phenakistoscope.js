@@ -6,13 +6,13 @@ const SLICE_COUNT = 8;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(STATIC_FRAME); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(false); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
   pScope.set_slice_count(SLICE_COUNT);
   pScope.load_image("cactus" , "png");
-  pScope.load_image("horse" , "png");
+  pScope.load_image("horseGrey" , "png");
   pScope.load_image("eagleTail" , "png");
   pScope.load_image("wingL" , "png");
   pScope.load_image("wingR" , "png");
@@ -130,9 +130,11 @@ scale(scaleVal2*1.25)
 pScope.draw_image("eagleTail", 0, 1000);
 pop()
 
-// pScope.draw_image("clawL", 400, 900);
-// pScope.draw_image("clawL", 400, 900);
-
+push()
+scale(1.7);
+pScope.draw_image("clawL", -400, 950);
+pScope.draw_image("clawR", 400, 950);
+pop()
 
 push()
 push();
@@ -156,12 +158,52 @@ pop()
 pop()
 pop()
 
-
-
-
  
+//cactus drawing in code
+push()
+scale(1);
+rotate(350)
+  translate(17, -485)
+
+  // (114, 191, 86) main green
+  // (160, 215, 125) lighter green front branch
+  // (107, 175, 80) darker green back branch
+  // (87, 153, 58) thorns
+
+  fill(114, 191, 86);
+  noStroke();
+  beginShape();
+  curveVertex(0, 0);
+  curveVertex(0, 0);
+  curveVertex(-10, -12);
+  curveVertex(-20, -15);
+  curveVertex(-30, -12)
+  curveVertex(-40, 0);
+  curveVertex(-40, 0);
+  endShape();
+
+  rect(-40, -1, 40, 90)
+pop()
 }
 
+
+
+
+
+function cactus(x, y, animation, pScope){
+
+  
+
+  let scaleVal = 0.08;
+
+rotate(350);
+
+push()
+scale(scaleVal);
+// pScope.draw_image("cactus", 0, -5500);
+pop()
+  
+}
 
 
 
@@ -209,9 +251,9 @@ function horseJump(x, y, animation, pScope){
       else{ //jump fall
         horseY = map(animation.frame, jumpFrames/2, jumpFrames, -5000, -4660);
       }
-      // console.log(horseY);
+
       // horseY = -4660;
-      pScope.draw_image("horse", 1900 - animation.frame*1600, horseY); //400, -4660 is the horse end pos. you may want to tweak start pos (currently 300, -5000)
+      pScope.draw_image("horseGrey", 1900 - animation.frame*1600, horseY); //400, -4660 is the horse end pos. you may want to tweak start pos (currently 300, -5000)
     }
     // pScope.draw_image("horse", 400, -4660); //400, -4660 end pos
     pop()
@@ -237,7 +279,7 @@ function horse(x, y, animation, pScope){
 
   translate(xLift, yLift); //used a translate for the horse position in case you want to animate the rotation/scale as well
     rotate(8);
-    pScope.draw_image("horse", 0, 0);
+    pScope.draw_image("horseGrey", 0, 0);
 
 }
 }
@@ -246,18 +288,7 @@ function horse(x, y, animation, pScope){
 
 
 
-  function cactus(x, y, animation, pScope){
-
-    let scaleVal = 0.08;
-
-  rotate(350);
-
-  push()
-  scale(scaleVal);
-  pScope.draw_image("cactus", 0, -5500);
-  pop()
-    
-  }
+  
   
 
 
@@ -266,7 +297,4 @@ function horse(x, y, animation, pScope){
 
 
 
-//variables: framerate, colours, slices, ring or swirl
-
-//horse colour
-//horse movement variables as let statements
+//variables: framerate, colours, slices
