@@ -6,7 +6,7 @@ const SLICE_COUNT = 6;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(STATIC_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
 // pScope.output_mode(OUTPUT_PRINT(A3));
  pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(false); 
@@ -246,7 +246,7 @@ function horse(x, y, animation, pScope){
   let xOffset = 1000;
   let horseStartX = -400;
   let horseStartY = -2515;
-  let horseEndX = -5000;
+  let horseEndX = -4800;
   let horseEndY = -1000;
 
 
