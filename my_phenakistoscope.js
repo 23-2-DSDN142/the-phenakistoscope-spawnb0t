@@ -9,7 +9,7 @@ function setup_pScope(pScope){
   pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
 // pScope.output_mode(OUTPUT_PRINT(A3));
  pScope.scale_for_screen(true);
-  pScope.draw_layer_boundaries(true); 
+  pScope.draw_layer_boundaries(false); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
   pScope.set_slice_count(SLICE_COUNT);
   pScope.load_image("horseGrey" , "png");
@@ -54,6 +54,11 @@ function setup_layers(pScope){
   var layer6 = new PLayer(dustCloud);
   layer6.mode(RING);
   layer6.set_boundary( 400, 1000);
+
+  var layer7 = new PLayer(outsideRing);
+  layer7.mode(RING);
+  layer7.set_boundary(970,1000);
+
 
 }
 
@@ -260,33 +265,49 @@ function horse(x, y, animation, pScope){
 
 
 
+function outsideRing (x,y,animation,pScope){
+  // const startColour = color('#b7e2f3');
+  // const endColour = color(255);
+  
+  
+  // let animatingColour = lerpColor(startColour, endColour, animation.wave())
+  pScope.fill_background(animatingColour);
+
+  pScope.fill_background(255);
+  
+  }
+  
+
+
+
+
 
 function dustCloud(x, y, animation, pScope){
 
 // if(animation.frame < 0.75 && animation.frame>=0.5){
 
-  fill('#ff0000')
-  ellipse(440, -200, 10, 10)
-  ellipse(580, -245, 10, 10)
+  // fill('#ff0000')
+  // ellipse(440, -200, 10, 10)
+  // ellipse(580, -245, 10, 10)
 
 
 
-  fill(200);
-  noStroke()
-        beginShape();
-        curveVertex(440, -200);
-        curveVertex(440, -200);
-        curveVertex(460, -245);
-        // curveVertex(600, -243);
-        // curveVertex(760, -250);
-        // curveVertex(950, -245);
-        // curveVertex(1030, -230);
-        // curveVertex(920, -220);
-        // curveVertex(780, -210);
-        // curveVertex(600, -220);
-        // curveVertex(460, -210);
-        // curveVertex(360, -229);
-        // curveVertex(360, -229);
-        endShape();
+  // fill(200);
+  // noStroke()
+  //       beginShape();
+  //       curveVertex(440, -200);
+  //       curveVertex(440, -200);
+  //       curveVertex(460, -245);
+  //       // curveVertex(600, -243);
+  //       // curveVertex(760, -250);
+  //       // curveVertex(950, -245);
+  //       // curveVertex(1030, -230);
+  //       // curveVertex(920, -220);
+  //       // curveVertex(780, -210);
+  //       // curveVertex(600, -220);
+  //       // curveVertex(460, -210);
+  //       // curveVertex(360, -229);
+  //       // curveVertex(360, -229);
+  //       endShape();
 }
 
