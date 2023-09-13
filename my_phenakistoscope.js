@@ -2,17 +2,16 @@
 //REWRITE NOTES - PROFESSIONALISM
 
 //6-18 (10) 
-const SLICE_COUNT = 8;
+const SLICE_COUNT = 6;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(STATIC_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
 // pScope.output_mode(OUTPUT_PRINT(A3));
  pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(false); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
   pScope.set_slice_count(SLICE_COUNT);
-  pScope.load_image("cactus" , "png");
   pScope.load_image("horseGrey" , "png");
   pScope.load_image("eagleTail" , "png");
   pScope.load_image("wingL" , "png");
@@ -20,6 +19,7 @@ function setup_pScope(pScope){
   pScope.load_image("clawL" , "png");
   pScope.load_image("clawR" , "png");
   pScope.load_image("eagleHead" , "png");
+  pScope.load_image("tumbleweed" , "png");
 }
 
 
@@ -34,7 +34,7 @@ function setup_layers(pScope){
   layer1.mode(RING);
   layer1.set_boundary(400, 1000);
 
-  var layer2 = new PLayer(tumbleweedCentre);
+  let layer2 = new PLayer(tumbleweed);
   layer2.mode(RING);
   layer2.set_boundary( 0, 400);
 
@@ -62,6 +62,7 @@ function eagle(x, y, animation, pScope){
   
   pScope.fill_background('#b7e2f3');
 
+  push()
   let xEagleStart = 6000//right
   let yEagleStart = -12000 //top
   let xEagleFurthest = -6000//left
@@ -75,10 +76,10 @@ function eagle(x, y, animation, pScope){
 
 //scaling
 if(animation.frame <= 0.5){
-  scaleVal2 = map(animation.frame, 0, 0.5, 0.5, 0.8);
+  scaleVal2 = map(animation.frame, 0, 0.5, 0.6, 0.8);
 }
 else{
-  scaleVal2 = map(animation.frame, 0, 0.5, 0.8, 0.5);;
+  scaleVal2 = map(animation.frame, 0, 0.5, 0.8, 0.6);;
 }
 
 push()
@@ -97,9 +98,8 @@ xSwoop = map(animation.frame, 0, 1, xEagleStart, xEagleFurthest);
 // xSwoop = 0;
 // ySwoop = -10000;
 
+// scaleVal2 = 0.8
 
-
-scaleVal2 = 0.8
 
 if(animation.frame <= 0.25){
   flap = map(animation.frame, 0, 0.25, );
@@ -197,6 +197,11 @@ rotate(350)
   curveVertex(-40, 0);
   endShape();
 pop()
+pop()
+
+//yellow tumbleweed background
+fill('#FDD985')
+ellipse(0, 0, 800)
 }
 
 
@@ -215,29 +220,27 @@ push()
 scale(scaleVal);
 // pScope.draw_image("cactus", 0, -5500);
 pop()
+
+
+
+
   
 }
 
 
 
 
-function tumbleweedCentre(x, y, animation, pScope){
+function tumbleweed(x, y, animation, pScope){
 
-  // this is how you set up a background for a specific layer
-  let angleOffset = (360 / SLICE_COUNT) /2
-  let backgroundArcStart = 270 - angleOffset;
-  let backgroundArcEnd = 270 + angleOffset;
-
-  fill('#FDD985')
-  arc(x,y,800,800,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
-
-  stroke('#AB7E4C')
-  strokeWeight(7);
-  line(0, 0, 0, -50);
-  line(0, -50, 10, -100);
-  line(10, -100, -30, -130);
-  line(-30, -130, )
-
+  // pScope.fill_background('#FDD985');
+ 
+  
+  if(animation.frame == 0){
+    scale(2.5)
+    rotate(180)
+    pScope.draw_image("tumbleweed", x, y)
+  
+  }
 }
 
 
@@ -303,6 +306,13 @@ function horse(x, y, animation, pScope){
     pScope.draw_image("horseGrey", 0, 0);
 
 }
+
+//dust cloud
+push()
+fill('#ff0000')
+ellipse(0, -2000, 20, 20)
+pop()
+
 }
 
 
@@ -319,3 +329,9 @@ function horse(x, y, animation, pScope){
 
 
 //variables: framerate, colours, slices
+// let angleOffset = (360 / SLICE_COUNT) /2
+  // let backgroundArcStart = 270 - angleOffset;
+  // let backgroundArcEnd = 270 + angleOffset;
+
+ // fill('')
+ // ellipse(x,y,800, 800, backgroundArcStart, backgroundArcEnd); // draws "pizza slice" in the background
