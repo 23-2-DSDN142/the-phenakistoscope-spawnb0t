@@ -6,10 +6,10 @@ const SLICE_COUNT = 6;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(STATIC_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(STATIC_FRAME); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
 // pScope.output_mode(OUTPUT_PRINT(A3));
  pScope.scale_for_screen(true);
-  pScope.draw_layer_boundaries(false); 
+  pScope.draw_layer_boundaries(true); 
   pScope.set_direction(CCW); //CW or CCW - inward or outward
   pScope.set_slice_count(SLICE_COUNT);
   pScope.load_image("horseGrey" , "png");
@@ -54,9 +54,7 @@ function setup_layers(pScope){
 
 
 
-//function 'elementName'(x, y, animation, pScope){
-//    scale(no.) / scale(0+animation.frameNo.) / scale(animation.wave)
-//  }
+
 
 function eagle(x, y, animation, pScope){
   
@@ -65,7 +63,7 @@ function eagle(x, y, animation, pScope){
   push()
   let xEagleStart = 6000//right
   let yEagleStart = -12000 //top
-  let xEagleFurthest = -6000//left
+  let xEagleFurthest = -3000//left
   let yEagleBottom = -7500//bottom (change?)
 
   let xSwoop = xEagleStart 
@@ -79,7 +77,7 @@ if(animation.frame <= 0.5){
   scaleVal2 = map(animation.frame, 0, 0.5, 0.6, 0.8);
 }
 else{
-  scaleVal2 = map(animation.frame, 0, 0.5, 0.8, 0.6);;
+  scaleVal2 = map(animation.frame, 0.5, 1, 0.8, 0.6);;
 }
 
 push()
@@ -98,25 +96,18 @@ xSwoop = map(animation.frame, 0, 1, xEagleStart, xEagleFurthest);
 // xSwoop = 0;
 // ySwoop = -10000;
 
-// scaleVal2 = 0.8
-
 
 if(animation.frame <= 0.25){
-  flap = map(animation.frame, 0, 0.25, );
+  rotateWing = map(animation.frame, 0, 0.25, 60, -60);
+}
+else if(animation.frame > 0.25 && animation.frame <=0.5){
+  rotateWing = map(animation.frame, 0.25, 0.5, -40, 40);
+}
+else if(animation.frame > 0.5 && animation.frame <=0.75){
+  rotateWing = map(animation.frame, 0.5, 0.75, 120, -120);
 }
 else{
-  flap = map(animation.frame, 0.25, 0.5, 0.8, 0.5);;
-}
-
-
-if(animation.frame <= 0.5){
-  rotateWing = map(animation.frame, 0, 0.5, -30, 30);
-}
-// else if(animation.frame > 0.25 && animation.frame <=0.5){
-
-// }
-else{
-  rotateWing = map(animation.frame, 0.5, 1, 30, -30);
+  rotateWing = map(animation.frame, 0.75, 1, -40, 40);
 }
 
 
@@ -199,6 +190,8 @@ rotate(350)
 pop()
 pop()
 
+
+
 //yellow tumbleweed background
 fill('#FDD985')
 ellipse(0, 0, 800)
@@ -230,6 +223,7 @@ pop()
 
 
 
+
 function tumbleweed(x, y, animation, pScope){
 
   // pScope.fill_background('#FDD985');
@@ -251,55 +245,50 @@ function horseJump(x, y, animation, pScope){
   push()
     let scaleVal = 0.2;
     let jumpFrames = 0.45;
-    let horseStart = -2330;
-    let horseBounce = -4330;
-    rotate(8);
+    let horseStart = -2900;
+    let horseBounce = -3230;
+    translate(-230, 6)
+    rotate(28);
   
-  
-    //400, -4660 is this horse's end pos. You may want to tweak the start pos (currently 300, -5000, 1900 - animation.frame*1600 and horseY)
   
     push()
     scale(scaleVal);
     
     if(animation.frame<=jumpFrames){//horse jump in first section of animation (jumpframes is at top of code, currently 0.45)
-      let horseY;//create y val for horse
-      if(animation.frame<=jumpFrames/2){//jump up
+      let horseY;
+      if(animation.frame<=jumpFrames/2){
         horseY = map(animation.frame, 0, jumpFrames/2, horseStart, horseBounce);
       }
-      else{ //jump fall
-        horseY = map(animation.frame, jumpFrames/2, jumpFrames, horseStart, horseBounce-1000);
+      else{
+        horseY = map(animation.frame, jumpFrames/2, jumpFrames, horseStart, horseBounce);
       }
 
-      // horseY = -4660;
-      pScope.draw_image("horseGrey", 1320-animation.frame*1600, horseY); //400, -4660 is the horse end pos. you may want to tweak start pos (currently 300, -5000)
+      pScope.draw_image("horseGrey", 1200-animation.frame*1600, horseY); 
     }
-    // pScope.draw_image("horse", 400, -4660); //400, -4660 end pos
     pop()
-  
     pop()
   }
 
 
-  // let horseStart = -2330;
-  // let horseEndX = -6000;
-  // let horseEndY = -400;
+  
 
 
 function horse(x, y, animation, pScope){
 
-  let scaleVal = 0.2;
+  let HorseScaleVal = 0.2;
   let jumpFrames = 0.45;
+  let yOffset = 500;
   let xOffset = 1000;
   let horseStartX = -400;
-  let horseStartY = -2415;
-  let horseEndX = -6000;
-  let horseEndY = -400;
+  let horseStartY = -2515;
+  let horseEndX = -5000;
+  let horseEndY = -1000;
 
-  scale(scaleVal);
+
+  scale(HorseScaleVal);
   if(animation.frame>=jumpFrames){ 
-//-4660, 400 horse start pos, -3000, -8660 end pos - probably tweak end points based on eagle, easiest way to do so is in static_disc mode
-  let yLift = map(animation.frame, jumpFrames, 1, horseStartY+500, horseEndX); //500 is an offset to tweak start pos based on frame no
-  let xLift = map(animation.frame, jumpFrames, 1, horseStartX+xOffset, horseEndY); // 1000 is an offset to tweak start pos based on frame no
+  let yLift = map(animation.frame, jumpFrames, 1, horseStartY+yOffset, horseEndX); 
+  let xLift = map(animation.frame, jumpFrames, 1, horseStartX+xOffset, horseEndY); 
 
   translate(xLift, yLift); //used a translate for the horse position in case you want to animate the rotation/scale as well
     rotate(8);
@@ -307,11 +296,11 @@ function horse(x, y, animation, pScope){
 
 }
 
-//dust cloud
-push()
-fill('#ff0000')
-ellipse(0, -2000, 20, 20)
-pop()
+// //dust cloud
+// push()
+// fill('#ff0000')
+// ellipse(0, -2000, 20, 20)
+// pop()
 
 }
 
