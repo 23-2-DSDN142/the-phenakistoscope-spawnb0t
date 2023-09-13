@@ -6,7 +6,7 @@ const SLICE_COUNT = 6;
 
 //how phenakistoscope runs as a whole
 function setup_pScope(pScope){
-  pScope.output_mode(STATIC_FRAME); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
+  pScope.output_mode(ANIMATED_DISK); //STATIC_FRAME / ANIMATED_FRAME / STATIC_DISK / ANIMATED_DISK / OUTPUT_GIF(1000) / OUTPUT_PRINT(A4orA3)
 // pScope.output_mode(OUTPUT_PRINT(A3));
  pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true); 
@@ -20,6 +20,7 @@ function setup_pScope(pScope){
   pScope.load_image("clawR" , "png");
   pScope.load_image("eagleHead" , "png");
   pScope.load_image("tumbleweed" , "png");
+  pScope.load_image("cactus" , "png")
 }
 
 
@@ -49,6 +50,10 @@ function setup_layers(pScope){
   var layer5 = new PLayer(horse);
   layer5.mode(RING);
   layer5.set_boundary( 400, 1000);
+
+  var layer6 = new PLayer(dustCloud);
+  layer6.mode(RING);
+  layer6.set_boundary( 400, 1000);
 
 }
 
@@ -149,45 +154,6 @@ pScope.draw_image("eagleHead", -15, 0);//ySwoop + -10000);
 pop()
 pop()
 pop()
-
- 
-//cactus drawing in code
-push()
-scale(1);
-rotate(350)
-  translate(17, -485)
-
-  // (114, 191, 86) main green
-  // (160, 215, 125) lighter green front branch
-  // (107, 175, 80) darker green back branch
-  // (87, 153, 58) thorns
-
-  fill(114, 191, 86);
-  noStroke();
-  beginShape();
-  curveVertex(0, 0);
-  curveVertex(0, 0);
-  curveVertex(-10, -12);
-  curveVertex(-20, -15);
-  curveVertex(-30, -12)
-  curveVertex(-40, 0);
-  curveVertex(-40, 0);
-  endShape();
-
-  rect(-40, -1, 40, 90)
-
-  fill(114, 191, 86);
-  noStroke();
-  beginShape();
-  curveVertex(0, 0);
-  curveVertex(0, 0);
-  curveVertex(-10, -12);
-  curveVertex(-20, -15);
-  curveVertex(-30, -12)
-  curveVertex(-40, 0);
-  curveVertex(-40, 0);
-  endShape();
-pop()
 pop()
 
 
@@ -203,19 +169,13 @@ ellipse(0, 0, 800)
 
 function cactus(x, y, animation, pScope){
 
-  
-
-  let scaleVal = 0.08;
-
-// rotate(350);
-
 push()
-scale(scaleVal);
-// pScope.draw_image("cactus", 0, -5500);
+
+scale(0.5);
+rotate(-13);
+pScope.draw_image("cactus", 0, 935);
+
 pop()
-
-
-
 
   
 }
@@ -290,37 +250,43 @@ function horse(x, y, animation, pScope){
   let yLift = map(animation.frame, jumpFrames, 1, horseStartY+yOffset, horseEndX); 
   let xLift = map(animation.frame, jumpFrames, 1, horseStartX+xOffset, horseEndY); 
 
-  translate(xLift, yLift); //used a translate for the horse position in case you want to animate the rotation/scale as well
+  translate(xLift, yLift); 
     rotate(8);
     pScope.draw_image("horseGrey", 0, 0);
 
 }
-
-// //dust cloud
-// push()
-// fill('#ff0000')
-// ellipse(0, -2000, 20, 20)
-// pop()
-
 }
 
 
 
 
 
-  
-  
+function dustCloud(x, y, animation, pScope){
+
+// if(animation.frame < 0.75 && animation.frame>=0.5){
+
+  fill('#ff0000')
+  ellipse(440, -200, 10, 10)
+  ellipse(580, -245, 10, 10)
 
 
-  
-    
 
+  fill(200);
+  noStroke()
+        beginShape();
+        curveVertex(440, -200);
+        curveVertex(440, -200);
+        curveVertex(460, -245);
+        // curveVertex(600, -243);
+        // curveVertex(760, -250);
+        // curveVertex(950, -245);
+        // curveVertex(1030, -230);
+        // curveVertex(920, -220);
+        // curveVertex(780, -210);
+        // curveVertex(600, -220);
+        // curveVertex(460, -210);
+        // curveVertex(360, -229);
+        // curveVertex(360, -229);
+        endShape();
+}
 
-
-//variables: framerate, colours, slices
-// let angleOffset = (360 / SLICE_COUNT) /2
-  // let backgroundArcStart = 270 - angleOffset;
-  // let backgroundArcEnd = 270 + angleOffset;
-
- // fill('')
- // ellipse(x,y,800, 800, backgroundArcStart, backgroundArcEnd); // draws "pizza slice" in the background
