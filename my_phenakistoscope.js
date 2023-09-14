@@ -252,7 +252,7 @@ function horse(x, y, animation, pScope){
   let xOffset = 1000;
   let horseStartX = -400;
   let horseStartY = -2515;
-  let horseEndX = -4800;
+  let horseEndX = -4500;
   let horseEndY = -1000;
 
 
